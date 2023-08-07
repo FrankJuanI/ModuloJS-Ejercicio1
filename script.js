@@ -41,3 +41,7 @@ var producto3 = new producto(
   35,
   "Tremendo Jpystick XBOX para ganarle a tu amigo al fifa"
 );
+
+console.log(producto1);
+console.log(producto2);
+console.log(producto3);

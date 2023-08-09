@@ -21,9 +21,23 @@ function crearProducto(titulo, precio, descuento, descripcion) {
   return producto;
 }
 
+productos = [];
 var usuarios = [];
 
-function registrarUsuario(nombre, contraseña, admin) {
+function solicitarUsuario() {
+  let regUser = prompt(`Indica nombre del usuario: `);
+  let regPass = prompt(`Indica contraseña: `);
+  let regAdm = prompt(`Es admin? `);
+  Registrar(regUser, regPass, regAdm);
+  console.log(usuarios);
+}
+
+function Registrar(nombre, contraseña, admin) {
+  if (admin == `si` || admin == true) {
+    admin = true;
+  } else if ((admin = `no` || admin == false)) {
+    admin = false;
+  }
   let usuario = {
     nombre: nombre,
     contraseña: contraseña,
@@ -32,28 +46,44 @@ function registrarUsuario(nombre, contraseña, admin) {
   usuarios.push(usuario);
 }
 
-registrarUsuario(`pepito`, 123, true);
-registrarUsuario(`momi`, 321, false);
+Registrar(`pepito`, 123, true);
+Registrar(`momi`, 321, false);
+Registrar(`nacho`, 231, false);
+Registrar(`yoyi`, 312, false);
+
+function encontrarUsuario(loginUsuario) {
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].nombre == loginUsuario) {
+      console.log(`Usuario encontrado`);
+      let usuarioLog = usuarios[i];
+      console.log(usuarioLog);
+      return usuarioLog;
+    }
+    return null;
+  }
+}
 
 function login() {
   let loginUsuario = prompt("Usuario: ");
   let loginPassword = prompt("Contraseña: ");
-  for (let i = 0; i <= usuarios.length; i++) {
-    if (
-      usuarios[i].nombre == loginUsuario &&
-      usuarios[i].contraseña == loginPassword &&
-      usuarios[i].admin
-    ) {
-      console.log(`admin`);
-      break;
+  let usuarioLog = encontrarUsuario(loginUsuario);
+
+  if (usuarioLog != null) {
+    if (usuarioLog.contraseña == loginPassword && usuarioLog.admin == true) {
+      console.log(`Legueado como admin`);
+      mostrarBotonAdmin();
     } else if (
-      usuarios[i].nombre == loginUsuario &&
-      usuarios[i].contraseña == loginPassword &&
-      !usuarios[i].admin
+      usuarioLog.contraseña == loginPassword &&
+      usuarioLog.admin == false
     ) {
-      console.log("user");
+      console.log(`Logueado como usuario`);
     }
+  } else {
+    console.log(`Usuario no encontrado`);
   }
 }
 
-productos = [];
+function mostrarBotonAdmin() {
+  let botonAdmin = document.getElementById(`adminbutton`);
+  botonAdmin.style.display = `block`;
+}

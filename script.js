@@ -171,3 +171,20 @@ function mostrarProductos() {
     .join("");
   document.getElementById("contenedor").innerHTML = mostrarInfo;
 }
+
+function guardarProducto(){
+  let productosJson = JSON.stringify(productos)
+
+  
+  localStorage.setItem('productosJson', productosJson)
+
+}
+
+function cargarProductos(){
+  let dou = localStorage.getItem('productosJson')
+  productos = JSON.parse(dou)
+  for (producto in dou){
+    mostrarProductos()
+  }
+}
+

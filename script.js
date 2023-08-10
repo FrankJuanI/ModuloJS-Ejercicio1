@@ -23,6 +23,7 @@ function crearProducto(titulo, precio, descuento, descripcion) {
 
 productos = [];
 var usuarios = [];
+var usuarioLogueado = null;
 
 function solicitarUsuario() {
   let regUser = prompt(`Indica nombre del usuario: `);
@@ -33,16 +34,18 @@ function solicitarUsuario() {
 }
 
 function Registrar(nombre, contraseña, admin) {
+  let adminn;
   if (admin == `si` || admin == true) {
-    admin = true;
+    adminn = true;
   } else if ((admin = `no` || admin == false)) {
-    admin = false;
+    adminn = false;
   }
   let usuario = {
     nombre: nombre,
     contraseña: contraseña,
-    admin: admin,
+    admin: adminn,
   };
+  console.log(usuario);
   usuarios.push(usuario);
 }
 
@@ -52,38 +55,66 @@ Registrar(`nacho`, 231, false);
 Registrar(`yoyi`, 312, false);
 
 function encontrarUsuario(loginUsuario) {
+  console.log(loginUsuario);
+  console.log(usuarios);
   for (let i = 0; i < usuarios.length; i++) {
+    console.log(i);
     if (usuarios[i].nombre == loginUsuario) {
+      console.log(usuarios[i].nombre);
       console.log(`Usuario encontrado`);
       let usuarioLog = usuarios[i];
       console.log(usuarioLog);
       return usuarioLog;
     }
-    return null;
   }
+  return null;
 }
 
 function login() {
-  let loginUsuario = prompt("Usuario: ");
-  let loginPassword = prompt("Contraseña: ");
-  let usuarioLog = encontrarUsuario(loginUsuario);
-
-  if (usuarioLog != null) {
-    if (usuarioLog.contraseña == loginPassword && usuarioLog.admin == true) {
-      console.log(`Legueado como admin`);
-      mostrarBotonAdmin();
-    } else if (
-      usuarioLog.contraseña == loginPassword &&
-      usuarioLog.admin == false
-    ) {
-      console.log(`Logueado como usuario`);
+  if (usuarioLogueado == null) {
+    let loginUsuario = prompt("Usuario: ");
+    let loginPassword = prompt("Contraseña: ");
+    let usuarioLog = encontrarUsuario(loginUsuario);
+    console.log(usuarioLog);
+    if (usuarioLog != null) {
+      if (usuarioLog.contraseña == loginPassword && usuarioLog.admin == true) {
+        console.log(`Legueado como admin`);
+        mostrarBotonAdmin();
+        mostrarSalirSesion();
+        usuarioLogueado = usuarioLog.nombre;
+        console.log(usuarioLogueado);
+      } else if (
+        usuarioLog.contraseña == loginPassword &&
+        usuarioLog.admin == false &&
+        usuarioLog.admin == false
+      ) {
+        console.log(`Logueado como usuario`);
+        usuarioLogueado = usuarioLog.nombre;
+        mostrarSalirSesion();
+        console.log(usuarioLogueado);
+      }
+    } else {
+      console.log(`Usuario no encontrado`);
     }
   } else {
-    console.log(`Usuario no encontrado`);
+    console.log(`Ya hay un usuario logueado: ${usuarioLogueado}`);
   }
 }
 
 function mostrarBotonAdmin() {
   let botonAdmin = document.getElementById(`adminbutton`);
   botonAdmin.style.display = `block`;
+}
+
+function mostrarSalirSesion() {
+  let botonSalirSesion = document.getElementById(`salirbutton`);
+  botonSalirSesion.style.display = `block`;
+}
+
+function salirSesion() {
+  usuarioLogueado = null;
+  let botonSalirSesion = document.getElementById(`salirbutton`);
+  botonSalirSesion.style.display = `none`;
+  let botonAdmin = document.getElementById(`adminbutton`);
+  botonAdmin.style.display = `none`;
 }

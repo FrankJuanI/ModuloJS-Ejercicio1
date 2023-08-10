@@ -1,24 +1,40 @@
+function calcularPrecioTotal(precio, descuento) {
+  const discountToApply = (precio * descuento) / 100;
+  const totalPrice = precio - discountToApply;
+  console.log(`calculandoPrecioTotal ${totalPrice}`);
+  return totalPrice;
+}
+
+function calcularPrecioCuota(precio) {
+  const precioCuota = precio / 12;
+  console.log(`calculandoPrecioCuota ${precioCuota}`);
+  return precioCuota;
+}
+
 function crearProducto(titulo, precio, descuento, descripcion) {
   let producto = {
     titulo: titulo,
     precio: precio,
     descuento: descuento,
-    precioConDescuento: `El descuento es de ${calcularPrecioTotal()}`,
-    precioCuotas: `Precio cuotas ${calcularPrecioCuota()}`,
+    precioConDescuento: `El descuento es de ${calcularPrecioTotal(
+      precio,
+      descuento
+    )}`,
+    precioCuotas: `Precio cuotas ${calcularPrecioCuota(precio)}`,
     descripcion: descripcion,
   };
-
-  function calcularPrecioTotal() {
-    const discountToApply = (this.precio * this.descuento) / 100;
-    const totalPrice = this.precio - discountToApply;
-    return totalPrice;
-  }
-
-  function calcularPrecioCuota() {
-    const precioCuota = this.precio / 12;
-    return precioCuota;
-  }
+  console.log(producto);
   return producto;
+}
+
+function solicitarProducto() {
+  let titulo = prompt(`Titulo del producto`);
+  let precio = prompt(`Ingrese el precio del producto`);
+  let descuento = prompt(`Ingrese el descuento por el pago en efectivo`);
+  let descripcion = prompt(`Ingrese una descripcion para el producto`);
+  productos.push(crearProducto(titulo, precio, descuento, descripcion));
+  console.log(productos);
+  mostrarProductos();
 }
 
 productos = [];
@@ -117,4 +133,41 @@ function salirSesion() {
   botonSalirSesion.style.display = `none`;
   let botonAdmin = document.getElementById(`adminbutton`);
   botonAdmin.style.display = `none`;
+}
+
+var contenedor0 = document.createElement("div");
+document.body.appendChild(contenedor0);
+
+var div = document.getElementsByTagName("div")[0];
+div.className = "flex-container";
+div.id = "contenedor";
+
+function mostrarProductos() {
+  var mostrarInfo = productos
+    .map(function (info) {
+      return (
+        "<div>" +
+        "<h2>" +
+        info.titulo +
+        "</h2>" +
+        "<p>" +
+        info.precio +
+        " $ </p>" +
+        "<p>" +
+        info.descuento +
+        " <p/>" +
+        "<p>" +
+        info.precioConDescuento +
+        " <p/>" +
+        "<p>" +
+        info.precioCuotas +
+        " <p/>" +
+        "<p>" +
+        info.descripcion +
+        " <p/>" +
+        "</div>"
+      );
+    })
+    .join("");
+  document.getElementById("contenedor").innerHTML = mostrarInfo;
 }
